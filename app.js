@@ -6,6 +6,9 @@ const bodyparser = require('body-parser')
 const usersRoutes = require('./routes/users')
 const cpuRoutes = require('./routes/cpus')
 const monitorRoutes =require('./routes/monitores')
+const impresoraRoutes =require('./routes/impresoras')
+const perifericoRoutes = require('./routes/perifericos')
+const trannsformadorRoutes = require('./routes/transformadores')
 require('dotenv/config')
 
 //MIDLEWARES
@@ -14,8 +17,11 @@ app.use(morgan('tiny'))
 
 //RUTAS
 app.use('/users',usersRoutes)
-app.use('/inventario/cpus', cpuRoutes)
-app.use('/inventario/monitores', monitorRoutes)
+app.use('/equiposInformaticos/cpus', cpuRoutes)
+app.use('/equiposInformaticos/monitores', monitorRoutes)
+app.use('/equiposInformaticos/impresoras', impresoraRoutes)
+app.use('/equiposInformaticos/perifericos', perifericoRoutes)
+app.use('/equiposInformaticos/transformadores', trannsformadorRoutes)
 
 mongoose.connect(process.env.DB_KEY)
 .then(()=>{
