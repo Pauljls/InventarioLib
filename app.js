@@ -3,17 +3,25 @@ const app =  express()
 const mongoose = require('mongoose')
 const morgan = require('morgan')
 const bodyparser = require('body-parser')
+const cors= require('cors')
 const usersRoutes = require('./routes/users')
 const cpuRoutes = require('./routes/cpus')
 const monitorRoutes =require('./routes/monitores')
 const impresoraRoutes =require('./routes/impresoras')
 const perifericoRoutes = require('./routes/perifericos')
 const trannsformadorRoutes = require('./routes/transformadores')
+const authJwt = require('./helpers/jwt')
+const errorHandler =  require('./helpers/error-handler')
+
 require('dotenv/config')
 
 //MIDLEWARES
+app.use('*',cors())
 app.use(bodyparser.json())
 app.use(morgan('tiny'))
+app.use(authJwt)
+app.use(errorHandler)
+
 
 //RUTAS
 app.use('/users',usersRoutes)
