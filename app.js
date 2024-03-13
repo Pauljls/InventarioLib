@@ -12,11 +12,14 @@ const perifericoRoutes = require('./routes/perifericos')
 const trannsformadorRoutes = require('./routes/transformadores')
 const authJwt = require('./helpers/jwt')
 const errorHandler =  require('./helpers/error-handler')
-
 require('dotenv/config')
+
+//MOTOR DE PLANTILLAS
+app.set('view engine','ejs')
 
 //MIDLEWARES
 app.use('*',cors())
+app.use(express.static(__dirname + "/views"))
 app.use(bodyparser.json())
 app.use(morgan('tiny'))
 app.use(authJwt)
@@ -24,6 +27,9 @@ app.use(errorHandler)
 
 
 //RUTAS
+express.Router().get('/',(req,res)=>{
+    
+})
 app.use('/users',usersRoutes)
 app.use('/equiposInformaticos/cpus', cpuRoutes)
 app.use('/equiposInformaticos/monitores', monitorRoutes)
