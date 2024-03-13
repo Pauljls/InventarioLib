@@ -11,19 +11,9 @@ router.get('/',async(req,res)=>{
             message : 'No se pudo encontrar ningun usuario'
         })
     }
-    res.status(200).send(userList)
+    //res.status(200).send(userList)
+    res.render('users',{userList : userList})
 })
-
-router.get('/:id',async(req,res)=>{
-    const user = await User.findById(req.params.id)
-    if(!user){
-        return res.status(500).json({
-            message : 'No se pudo encontrar ningun usuario'
-        })
-    }
-    res.status(200).send(user)
-})
-
 router.post('/registro',async(req,res)=>{
     let user = new User({
         nombre : req.body.nombre,
@@ -43,6 +33,10 @@ router.post('/registro',async(req,res)=>{
         })
     }
     res.status(200).send(user)
+})
+
+router.get('/login',(req,res)=>{
+    res.render('login')
 })
 
 router.post('/login',async(req,res)=>{
@@ -76,5 +70,18 @@ router.post('/login',async(req,res)=>{
     }
     
 })
+
+
+router.get('/:id',async(req,res)=>{
+    const user = await User.findById(req.params.id)
+    if(!user){
+        return res.status(500).json({
+            message : 'No se pudo encontrar ningun usuario'
+        })
+    }
+    //res.status(200).send(user)
+    res.render('user')
+})
+
 
 module.exports = router

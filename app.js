@@ -14,28 +14,34 @@ const authJwt = require('./helpers/jwt')
 const errorHandler =  require('./helpers/error-handler')
 require('dotenv/config')
 
-//MOTOR DE PLANTILLAS
-app.set('view engine','ejs')
 
 //MIDLEWARES
 app.use('*',cors())
-app.use(express.static(__dirname + "/views"))
 app.use(bodyparser.json())
 app.use(morgan('tiny'))
-app.use(authJwt)
-app.use(errorHandler)
+app.use(express.static(__dirname + '/public'))
+//app.use(authJwt)
+//app.use(errorHandler)
+
+//MOTOR DE PLANTILLAS
+app.set('view engine','ejs')
+app.set('views', __dirname + "/views")
+
 
 
 //RUTAS
-express.Router().get('/',(req,res)=>{
-    
-})
+
 app.use('/users',usersRoutes)
 app.use('/equiposInformaticos/cpus', cpuRoutes)
 app.use('/equiposInformaticos/monitores', monitorRoutes)
 app.use('/equiposInformaticos/impresoras', impresoraRoutes)
 app.use('/equiposInformaticos/perifericos', perifericoRoutes)
 app.use('/equiposInformaticos/transformadores', trannsformadorRoutes)
+//app.use('*',(req,res)=>{
+//    res.status(404).json({
+//        message: "Pagina noo encontrada"
+//    })
+//})
 
 mongoose.connect(process.env.DB_KEY)
 .then(()=>{

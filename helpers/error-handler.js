@@ -13,6 +13,3 @@ function errorHandler(err,req,res,next){
 }
 
 module.exports= errorHandler
-
-
-//eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWVmNmU2NzVhNDQzNzZmZjM0OThlNDAiLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNzEwMjEyODMxLCJleHAiOjE3MTAyOTkyMzF9.tO9OGaBpfPQMJ8sAmXae9Ay-zg_mQ_t3jVgFfwAUeGE

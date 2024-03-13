@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/stylesheets/users.css">
+    <title>Usuarios</title>
+</head>
+<body>
+    <h1>Bienvenido</h1>
+    <p>Esta es la lista de usuarios</p>
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Apellido paterno</th>
+                <th>Apellido materno</th>
+            </tr>
+        </thead>
+        <tbody id="users-tbody">
+            <% userList.forEach(user => { %>
+                <tr>
+                    <td><%= user._id %></td>
+                    <td><%= user.nombre %></td>
+                    <td><%= user.apellidoP %></td>
+                    <td><%= user.apellidoM %></td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+    <!--<button>Agregar Usuario</button>-->
+</body>
+</html>
