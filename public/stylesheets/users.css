@@ -9,12 +9,41 @@
     --backgroundcolor : #ffffff;
     --backgroundcolorB : #105f3c; 
 }
+html{
+    margin: 0px;
+}
 body{
-    margin: 20px;
+    margin: 0px;
+}
+h1,p{
+    margin: 50px;
+}
+#element-table{
+    margin: 50px;
 }
 
 th{
-    width: 500px;
+    width: 300px;
     color: var(--backgroundcolor);
     background-color: var(--backgroundcolorB);
+    text-align: center;
 }
+tbody{
+    text-align: center;
+}
+
+#add-btn{
+    display: inline;
+    width: 150px;
+    height: 30px;
+    background-color:var(--backgroundcolorB);
+    color: var(--backgroundcolor);
+    text-decoration: none;
+    text-align: center;
+    padding-top: 5px;
+    border-radius: 15px;
+    float: right;
+}
+
+
+

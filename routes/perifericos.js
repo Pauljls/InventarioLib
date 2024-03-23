@@ -9,7 +9,7 @@ router.get('/',async(req,res)=>{
             message : 'No se pudo encontrar ninguna impresora registrado'
         })
     }
-    res.status(200).send(perifericoList)
+    res.status(200).render('perifericos',{perifericoList : perifericoList})
 })
 
 router.get('/:id',async(req,res)=>{

@@ -9,12 +9,14 @@ router.get('/',async(req,res)=>{
             message : 'No se pudo encontrar trnasformador registrado'
         })
     }
-    res.status(200).send(transformadorList)
+    res.status(200).render('transformadores',{
+        transformadorList : transformadorList
+    })
 })
 
 router.get('/:id',async(req,res)=>{
-    const trannsformador = await Transformador.findById(req.params.id)
-    if(!trannsformador){
+    const transformador = await Transformador.findById(req.params.id)
+    if(!transformador){
         return res.status(500).json({
             message : 'No se pudo encontrar el trasnformador'
         })

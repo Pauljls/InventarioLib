@@ -1,5 +1,6 @@
 const express = require('express')
 const Impresora  = require('../models/impresora')
+const impresora = require('../models/impresora')
 const router  = express.Router()
 
 router.get('/',async(req,res)=>{
@@ -9,7 +10,7 @@ router.get('/',async(req,res)=>{
             message : 'No se pudo encontrar ninguna impresora registrado'
         })
     }
-    res.status(200).send(impresoraList)
+    res.status(200).render('impresoras', {impresoraList : impresoraList})
 })
 
 router.get('/:id',async(req,res)=>{

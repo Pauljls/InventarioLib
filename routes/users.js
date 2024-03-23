@@ -14,7 +14,14 @@ router.get('/',async(req,res)=>{
     //res.status(200).send(userList)
     res.render('users',{userList : userList})
 })
+
+router.get('/registro',async(req,res)=>{
+    res.status(200).render('userRegistro')
+})
+
 router.post('/registro',async(req,res)=>{
+    let isAdmin = req.body.isAdmin === 'on';
+
     let user = new User({
         nombre : req.body.nombre,
         apellidoP : req.body.apellidoP,
@@ -22,7 +29,7 @@ router.post('/registro',async(req,res)=>{
         correo : req.body.correo,
         contraseña: bcrypt.hashSync(req.body.contraseña,10),
         telefono : req.body.telefono,
-        isAdmin :req.body.isAdmin, 
+        isAdmin : isAdmin, 
     })
     
     user = await user.save()
@@ -80,7 +87,7 @@ router.get('/:id',async(req,res)=>{
         })
     }
     //res.status(200).send(user)
-    res.render('user')
+    res.render('user',user)
 })
 
 

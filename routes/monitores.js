@@ -9,7 +9,9 @@ router.get('/',async(req,res)=>{
             message : 'No se pudo encontrar ningun cpu registrado'
         })
     }
-    res.status(200).send(monitorList)
+    res.status(200).render('monitores',{
+        monitorList :  monitorList
+    })
 })
 
 router.get('/:id',async(req,res)=>{
