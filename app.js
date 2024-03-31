@@ -4,6 +4,7 @@ const mongoose = require('mongoose')
 const morgan = require('morgan')
 const bodyparser = require('body-parser')
 const cors= require('cors')
+const dashboard = require('./routes/dashboard')
 const usersRoutes = require('./routes/users')
 const cpuRoutes = require('./routes/cpus')
 const monitorRoutes =require('./routes/monitores')
@@ -30,18 +31,18 @@ app.set('views', __dirname + "/views")
 
 
 //RUTAS
-
+app.use('/dashboard',dashboard)
 app.use('/users',usersRoutes)
 app.use('/equiposInformaticos/cpus', cpuRoutes)
 app.use('/equiposInformaticos/monitores', monitorRoutes)
 app.use('/equiposInformaticos/impresoras', impresoraRoutes)
 app.use('/equiposInformaticos/perifericos', perifericoRoutes)
 app.use('/equiposInformaticos/transformadores', trannsformadorRoutes)
-//app.use('*',(req,res)=>{
-//    res.status(404).json({
-//        message: "Pagina noo encontrada"
-//    })
-//})
+app.use('*',(req,res)=>{
+    res.status(404).json({
+        message: "Pagina noo encontrada"
+    })
+})
 
 mongoose.connect(process.env.DB_KEY)
 .then(()=>{
@@ -49,5 +50,5 @@ mongoose.connect(process.env.DB_KEY)
 })
 .catch(err => console.log(err))
 app.listen(3000, ()=>{
-    console.log('El servidor esta funcionando en http://localhost:3000')
+    console.log('El servidor esta funcionando en http://localhost:3000/dashboard')
 })
