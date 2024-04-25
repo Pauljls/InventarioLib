@@ -46,37 +46,42 @@ router.get('/login',(req,res)=>{
     res.render('login')
 })
 
-router.post('/login',async(req,res)=>{
-    const {correo , contraseña} = req.body
-    const user  = await User.findOne({
-        correo : correo
-    })
-    //VALIDACION DE EXISTENCIA DEL USUARIOS
-    if(!user){
-        return res.status(400).json({
-            message : "No se pudo encontrar al usuario"
-        })
-    }
-    //VALIDACION DE CONTRASEÑA DEL USUARIO
-    if(user && bcrypt.compareSync(contraseña ,user.contraseña)){
-        //FIRMA DEL TOKEN
-        const secret = process.env.secret
-        const token = jwt.sign({
-            //INFORMACION DEL TOKEN
-            userId : user._id,
-            isAdmin : user.isAdmin
-        },secret,{expiresIn : '1d'})
-   
-        res.status(200).send({
-            email : user.correo,
-            token : token
-        })
+router.post('/login', async (req, res) => {
+    const { correo, contraseña } = req.body;
 
-    }else{
-        res.status(400).send({message : 'La contraseña es incoorrecta'})
+    try {
+        const user = await User.findOne({ correo });
+
+        // Validación de existencia del usuario
+        if (!user) {
+            return res.status(400).json({ message: "No se pudo encontrar al usuario" });
+        }
+
+        // Validación de contraseña del usuario
+        if (user && bcrypt.compareSync(contraseña, user.contraseña)) {
+            // FIRMA DEL TOKEN
+            const secret = process.env.secret;
+            const token = jwt.sign({
+                // Información del token
+                userId: user._id,
+                isAdmin: user.isAdmin
+            }, secret, { expiresIn: '1d' });
+
+            // Establecer la cookie de token
+            res.cookie('token', token, { maxAge: 86400000, httpOnly: true });
+
+            // Redireccionar al usuario al dashboard
+            res.redirect('/dashboard');
+        } else {
+            res.status(400).send({ message: 'La contraseña es incorrecta' });
+        }
+    } catch (error) {
+        console.error("Error al procesar la solicitud de inicio de sesión:", error);
+        res.status(500).send({ message: 'Se produjo un error al iniciar sesión' });
     }
-    
-})
+});
+
+module.exports = router;
 
 
 router.get('/:id',async(req,res)=>{

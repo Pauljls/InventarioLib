@@ -8,7 +8,8 @@ const itemcpuSchema = mongoose.Schema({
     estado :{type :String, require :  true},
     procesador : {type: String, require : true},
     ram : {type: String, require : true},
-    so : {type: String, default: 'Windows 10'}
+    so : {type: String, default: 'Windows 10'},
+    image : {type: String, default:''}
 })
 
 module.exports = mongoose.model('Cpu',itemcpuSchema)

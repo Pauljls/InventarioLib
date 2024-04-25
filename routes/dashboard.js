@@ -8,4 +8,5 @@ router.get('/equiposInformaticos',(req,res)=>{
     res.status(200).render('equiposInformaticos')
 })
 
+
 module.exports = router

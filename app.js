@@ -4,6 +4,7 @@ const mongoose = require('mongoose')
 const morgan = require('morgan')
 const bodyparser = require('body-parser')
 const cors= require('cors')
+const cookieParser= require('cookie-parser')
 const dashboard = require('./routes/dashboard')
 const usersRoutes = require('./routes/users')
 const cpuRoutes = require('./routes/cpus')
@@ -19,9 +20,10 @@ require('dotenv/config')
 //MIDLEWARES
 app.use('*',cors())
 app.use(bodyparser.urlencoded({extended : true}))
+app.use(cookieParser())
 app.use(morgan('tiny'))
 app.use(express.static(__dirname + '/public'))
-//app.use(authJwt)
+app.use(authJwt)
 //app.use(errorHandler)
 
 //MOTOR DE PLANTILLAS
@@ -40,7 +42,7 @@ app.use('/equiposInformaticos/perifericos', perifericoRoutes)
 app.use('/equiposInformaticos/transformadores', trannsformadorRoutes)
 app.use('*',(req,res)=>{
     res.status(404).json({
-        message: "Pagina noo encontrada"
+        message: "Pagina no encontrada"
     })
 })
 
@@ -50,5 +52,5 @@ mongoose.connect(process.env.DB_KEY)
 })
 .catch(err => console.log(err))
 app.listen(3000, ()=>{
-    console.log('El servidor esta funcionando en http://localhost:3000/dashboard')
+    console.log('El servidor esta funcionando en http://localhost:3000/users/login')
 })
