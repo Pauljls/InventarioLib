@@ -24,7 +24,7 @@ app.use(cookieParser())
 app.use(morgan('tiny'))
 app.use(express.static(__dirname + '/public'))
 app.use(authJwt)
-//app.use(errorHandler)
+app.use(errorHandler)
 
 //MOTOR DE PLANTILLAS
 app.set('view engine','ejs')

@@ -12,7 +12,8 @@ router.get('/',async(req,res)=>{
         })
     }
     //res.status(200).send(userList)
-    res.render('users',{userList : userList})
+    const user = req.user
+    res.render('users',{userList : userList, datos: user})
 })
 
 router.get('/registro',async(req,res)=>{
@@ -39,7 +40,9 @@ router.post('/registro',async(req,res)=>{
             message  :  "Error al crear al usuario"
         })
     }
-    res.status(200).send(user)
+    //res.status(200).send(user)
+
+    res.redirect('/users/login')
 })
 
 router.get('/login',(req,res)=>{
@@ -64,11 +67,12 @@ router.post('/login', async (req, res) => {
             const token = jwt.sign({
                 // Información del token
                 userId: user._id,
-                isAdmin: user.isAdmin
-            }, secret, { expiresIn: '1d' });
+                isAdmin: user.isAdmin,
+                nombre : user.nombre
+            }, secret, { expiresIn: '5m' });
 
             // Establecer la cookie de token
-            res.cookie('token', token, { maxAge: 86400000, httpOnly: true });
+            res.cookie('token', token, { httpOnly: true });
 
             // Redireccionar al usuario al dashboard
             res.redirect('/dashboard');

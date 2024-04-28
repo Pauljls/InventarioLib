@@ -10,13 +10,17 @@ function authJwt(req,res,next){
         getToken : getTokenFromCookie
     }).unless({
         path : ['/users/login','/users/registro']
-    })(req,res,next)
+    })
+    
+    (req,res,next)
 }
 
-function getTokenFromCookie(req) {
+function getTokenFromCookie(req,res) {
     const token = req.cookies.token; // Obtener el token de la cookie
     if (token) {
         return token;
+    }else{
+        res.redirect('/users/login')
     }
     return null;
 }
