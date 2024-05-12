@@ -14,12 +14,13 @@ const perifericoRoutes = require('./routes/perifericos')
 const trannsformadorRoutes = require('./routes/transformadores')
 const authJwt = require('./helpers/jwt')
 const errorHandler =  require('./helpers/error-handler')
+
 require('dotenv/config')
 
 
 //MIDLEWARES
 app.use('*',cors())
-app.use(bodyparser.urlencoded({extended : true}))
+app.use(bodyparser.urlencoded({extended:true}))
 app.use(cookieParser())
 app.use(morgan('tiny'))
 app.use(express.static(__dirname + '/public'))
@@ -33,6 +34,7 @@ app.set('views', __dirname + "/views")
 
 
 //RUTAS
+
 app.use('/dashboard',dashboard)
 app.use('/users',usersRoutes)
 app.use('/equiposInformaticos/cpus', cpuRoutes)

@@ -69,7 +69,7 @@ router.post('/login', async (req, res) => {
                 userId: user._id,
                 isAdmin: user.isAdmin,
                 nombre : user.nombre
-            }, secret, { expiresIn: '5m' });
+            }, secret, { expiresIn: '1d' });
 
             // Establecer la cookie de token
             res.cookie('token', token, { httpOnly: true });

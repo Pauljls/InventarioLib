@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="/stylesheets/users.css">
     <title>Cpu's</title>
 </head>
@@ -45,7 +46,7 @@
           </div>
         </nav>
          
-        <!--CONTENT-->
+<!--CONTENT-->
 
     <h1>Bienvenido</h1>
     <p>Esta es la lista de Cpu's</p>
@@ -56,6 +57,7 @@
                 <th>Numero de serie</th>
                 <th>Ubicacion</th>
                 <th>Estado</th>
+                <th>Acciones</th>
             </tr>
         </thead>
         <tbody id="users-tbody">
@@ -65,11 +67,258 @@
                     <td><%= cpu.serie %></td>
                     <td><%= cpu.ubicacion %></td>
                     <td><%= cpu.estado %></td>
+                    <td class="p-2">
+                      <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#visuzalizar" id="<%= cpu._id %>" onclick="visualizar(this.id)"><i class="fa-regular fa-eye"></i></button>
+                      <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editar" id="<%= cpu._id%>" onclick="editar(this.id)"><i class="fa-solid fa-pen-to-square"></i></button>
+                      <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#eliminar" id="<%= cpu._id%>" onclick="eliminar(this.id)"><i class="fa-solid fa-trash"></i></button>
+                    </td>
                 </tr>
             <% }) %>
         </tbody>
     </table>
-    <a href="http://google.com" id = "add-btn">Agregar</a>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <button type="button" class="btn btn-success  position-absolute end-0 translate-middle-x mx-5" data-bs-toggle="modal" data-bs-target="#exampleModal">
+      Agregar
+    </button>
+
+
+<!--VENTANA MODAL AGREGAR-->
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Agregar CPU</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+      <form action="cpus/registro" method="post" id="cpuData" enctype="multipart/form-data">
+        <div class="mt-3">
+          <label class="me-2">Nombre</label>
+          <input type="text" name="nombre" required/>
+        </div>
+        <div class="mt-3">
+          <label class="me-2">Numero de Serie</label>
+          <input type="text" name="serie" required/>
+        </div>
+        <div class="mt-3">
+          <label class="me-2">Fecha de Adquisicion</label>
+          <input type="date" name="fechaAdquisicion" required/>
+        </div>
+        <div class="mt-3">
+          <label class="me-3">Ubicacion</label>
+          <select required name="ubicacion">
+            <option selected disabled>Seleccione un lugar</option>
+            <option value="LOCAL 1">LOCAL 1</option>
+            <option value="LOCAL 2">LOCAL 2</option>
+            <option value="LOCAL 3">LOCAL 3</option>
+          </select>
+        </div>
+        <div class="mt-3">
+          <label class="me-3">Estado</label>
+          <select required name="estado">
+            <option selected disabled >Seleccione un estado</option>
+            <option value="ACTIVO">ACTIVO</option>
+            <option value="EN REPARACION">REPARACION</option>
+            <option value="INHABILITADO">INHABILITADO</option>
+          </select>
+        </div>
+        <div class="mt-3">
+          <label class="me-2">Procesador</label>
+          <input type="text" name="procesador" required/>
+        </div>
+        <div class="mt-3">
+          <label>RAM</label>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="ram" value="8" id="flexRadioDefault1">
+            <label class="form-check-label" for="flexRadioDefault1">
+              8.0 RAM
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="ram" value="16" id="flexRadioDefault2" checked>
+            <label class="form-check-label" for="flexRadioDefault2">
+              16.0 RAM
+            </label>
+          </div>
+        </div>  
+        <div class="mt-3">
+          <label for="imagen">Seleccionar imagen:</label>
+          <input type="file" id="imagen" name="image" accept="image/*">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+      </div>
+    </div>
+  </div>
+</form>
+</div>
+
+<!--VISUALIZACION-->
+
+<div class="modal fade" tabindex="-1" id="visuzalizar" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Ver CPU</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="d-flex  justify-content-center">
+          <div>
+            <div class="mt-3">
+              <label for="nombre">Nombre</label>
+              <input type="text" readonly id="nombre" class="m-2">
+            </div>
+            <div class="mt-3">
+              <label for="Nserie">Numero de serie</label>
+              <input type="text" readonly id="nSerie" class="m-2">
+            </div>
+            <div class="mt-3">
+              <label for="Fecha">Fecha de adquisicion</label>
+              <input type="date" readonly id="fecha" class="p-2 m-2">
+            </div>
+            <div class="mt-3">
+              <label for="Ubicacion">Ubicacion</label>
+              <input type="text" readonly id="ubicacion" class="p-2 m-2">
+            </div>
+            <div class="mt-3">
+              <label for="Estado">Estado</label>
+              <input type="text" readonly id="estado" class="p-2 m-2">
+            </div>
+            <div class="mt-3">
+              <label for="RAM">Ram</label>
+              <input type="text" readonly id="ram" class="p-2 m-2">
+            </div>
+            <div class="mt-3">
+              <label for="CPU">Procesador</label>
+              <input type="text" readonly id="cpu" class="p-2 m-2">
+            </div>
+            <div class="mt-3">
+              <label for="SO">Sistema Operativo</label>
+              <input type="text" readonly id="so" class="p-2 m-2">
+            </div>
+            <div class="mt-3">
+              <img src="" width=300px height=300px id="image">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--EDICION-->
+
+<div class="modal fade" id="editar" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <form id="editarForm" enctype="multipart/form-data">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Editar CPU</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="d-flex  justify-content-center">
+          <div>
+            <div class="mt-3">
+              <label for="nombre">Nombre</label>
+              <input type="text"  id="nombreE" name="nombre" class="m-2">
+            </div>
+            <div class="mt-3">
+              <label for="Nserie">Numero de serie</label>
+              <input type="text"  id="nSerieE" name="serie" class="m-2">
+            </div>
+            <div class="mt-3">
+              <label for="Fecha">Fecha de adquisicion</label>
+              <input type="date"  id="fechaE" name="fechaAdquisicion" class="p-2 m-2">
+            </div>
+            <div class="mt-3">
+              <label class="me-3">Ubicacion</label>
+              <select required name="ubicacion">
+                <option selected disabled>Seleccione un lugar</option>
+                <option value="LOCAL 1">LOCAL 1</option>
+                <option value="LOCAL 2">LOCAL 2</option>
+                <option value="LOCAL 3">LOCAL 3</option>
+              </select>
+            </div>
+            <div class="mt-3">
+              <label class="me-3">Estado</label>
+              <select required name="estado">
+                <option selected disabled >Seleccione un estado</option>
+                <option value="ACTIVO">ACTIVO</option>
+                <option value="EN REPARACION">REPARACION</option>
+                <option value="INHABILITADO">INHABILITADO</option>
+              </select>
+            </div>
+            <div class="mt-3">
+              <label>RAM</label>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="ram" value="8" id="flexRadioDefault1">
+                <label class="form-check-label" for="flexRadioDefault1">
+                  8.0 RAM
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="ram" value="16" id="flexRadioDefault2" checked>
+                <label class="form-check-label" for="flexRadioDefault2">
+                  16.0 RAM
+                </label>
+              </div>
+            </div>
+            <div class="mt-3">
+              <label for="CPU">Procesador</label>
+              <input type="text"  id="cpuE" name="procesador" class="p-2 m-2">
+            </div>  
+            <div class="mt-3">
+              <label for="SO">Sistema Operativo</label>
+              <input type="text" readonly id="soE" name="so" class="p-2 m-2">
+            </div>
+<!--
+              <div class="mt-3">
+              <label for="imagen">Seleccionar imagen:</label>
+              <input type="file" id="imagen" name="image" accept="image/*">
+            </div>
+-->
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+      </div>
+    </div>
+  </form>
+  </div>
+</div>
+
+
+<!--ELIMINAR-->
+<div class="modal fade" id="eliminar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="eliminarLabel">Eliminar CPU</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form id="eliminarForm">
+        <div class="modal-body">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          <button type="submit" class="btn btn-danger">Eliminar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script src="/javascripts/cpuData.js"></script>
 </body>
 </html>

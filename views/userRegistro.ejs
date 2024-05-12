@@ -12,19 +12,19 @@
         <p>Ingresa tu correo abajo para por ingresar a tu cuenta</p>
         <form action="/users/registro" method="post" id="login-form">
             <label class="login-item">Nombre</label><br/>
-            <input type="text" name="nombre" class="login-item"><br/>
+            <input type="text" name="nombre" class="login-item" required><br/>
             <label class="login-item">Apellido Paterno</label><br/>
-            <input type="text" name="apellidoP" class="login-item"><br/>
+            <input type="text" name="apellidoP" class="login-item" required><br/>
             <label class="login-item">Apellido Materno</label><br/>
-            <input type="text" name="apellidoM" class="login-item"><br/>
+            <input type="text" name="apellidoM" class="login-item" required><br/>
             <label class="login-item">Correo</label><br/>
-            <input type="email" name="correo" id="email" class="login-item" placeholder="m@example.com"><br/>
+            <input type="email" name="correo" id="email" class="login-item" placeholder="correo@example.com" required><br/>
             <label class="login-item">Contraseña</label><br/>
-            <input type="password" name="contraseña" id="password" class="login-item" ><br/>
+            <input type="password" name="contraseña" id="password" class="login-item" required><br/>
             <label class="login-item">Telefono</label><br/>
-            <input type="text" name="telefono" class="login-item"><br/>
+            <input type="text" name="telefono" class="login-item" required><br/>
             <label class="login-item">Es administrador ?</label><br/>
-            <input type="checkbox" name="isAdmin" class="login-item"><br/>
+            <input type="checkbox" name="isAdmin" class="login-item" required><br/>
             <input type="submit" value="Registrar" class="login-item">
         </form>
         <p>Tienes una cuenta? </p><a href="./login">Iniciar Sesion</a>

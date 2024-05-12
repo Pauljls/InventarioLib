@@ -2,6 +2,7 @@ const express = require('express')
 const CPU  = require('../models/itemcpu')
 const router  = express.Router()
 const multer =  require('multer')
+const bodyparser = require('body-parser')
 
 const FILE_TYPE_MAP = {
     'image/png' : 'png',
@@ -57,7 +58,8 @@ router.get('/:id',async(req,res)=>{
 
 router.post('/registro',uploadConf.single('image'),async(req,res)=>{
     //NOMBRE DEL ARCHIVO
-    const filename = req.file.filename
+    let filename = req.file.filename
+
     //NOMBRE DE LA RUTA
     const localPath = `${req.protocol}://${req.get('host')}/public/images/uploads/`;
     let cpu = new CPU({
@@ -78,7 +80,43 @@ router.post('/registro',uploadConf.single('image'),async(req,res)=>{
             message  :  "Error al crear al usuario"
         })
     }
-    res.status(200).send(cpu)
+    //res.status(200).send(cpu)
+    res.redirect('/equiposInformaticos/cpus')
+})
+
+router.patch('/:id',bodyparser.json({extended : true}),uploadConf.single('image'),async(req,res)=>{
+  try{
+    //let filename = req.file.filename
+    //const path = `${req.protocol}://${req.get('host')}/public/images/uploads/`;
+    const {nombre, serie, fechaAdquisicion, ubicacion, estado, procesador, ram, image} = req.body  
+    const cpu = await CPU.findByIdAndUpdate(req.params.id,{
+        nombre : nombre,
+        serie : serie,
+        fechaAdquisicion :  fechaAdquisicion,
+        ubicacion : ubicacion,
+        estado : estado,
+        procesador :  procesador,
+        ram : ram
+        //image : `${path}${filename}`
+    })
+    res.send(cpu)
+    //res.redirect('/equiposInformaticos/cpus')
+}catch(err){
+    res.status(500).send(err)
+  }
+  
+})
+
+router.delete('/:id',async(req,res)=>{
+    try{
+        const user = await CPU.findByIdAndDelete(req.params.id)
+        if(!user){
+            return res.send(400).json({message : 'El ususario no existe'})
+        }
+        res.send(user)
+    }catch(err){
+        console.log(err)
+    }
 })
 
 module.exports = router

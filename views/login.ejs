@@ -11,30 +11,13 @@
     <div id="login-card">
         <h1>Login</h1>
         <p>Ingresa tu correo abajo para por ingresar a tu cuenta</p>
-        <form id="login-form" action="/users/login" method="post">
+        <form id="login-form" method="post" action="/users/login">
             <label class="login-item">Correo</label><br/>
             <input type="email" name="correo" id="email" class="login-item" placeholder="m@example.com"><br/>
             <label class="login-item">Contraseña</label><br/>
             <input type="password" name="contraseña" id="password" class="login-item"><br/>
             <input type="submit" value="Login" class="login-item">
         </form>
-        <script>
-        //    const form = document.getElementById('login-form');
-        //    form.onsubmit = async (e) => {
-        //        e.preventDefault();
-        //        const formData = new FormData(form);
-        //        const data = Object.fromEntries(formData.entries());
-        //        console.log(data)
-        //        const res = await fetch('/users/login',{
-        //            method : 'POST',
-        //            body : JSON.stringify(data),
-        //            headers : {
-        //                'Content-type' : 'application/json'
-        //            }
-        //        })
-        //        console.log(res)
-        //    }
-        //</script>
         <p>No tienes una cuenta? </p><a href="./registro">Registrarse</a>
     </div>
 </body>
